@@ -6,12 +6,14 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import DeclarativeBase
 
 # Railway provides DATABASE_URL automatically when you add PostgreSQL
-# Format: postgresql://user:password@host:port/database
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/taskdb")
+# Railway may use postgres:// or postgresql://
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:jLGdUWnlOmlBvKVeLRxOXWUmgYoxybvX@postgres.railway.internal:5432/railway")
 
-# Convert to async format (postgresql:// -> postgresql+asyncpg://)
+# Convert to async format for asyncpg (postgresql:// or postgres:// -> postgresql+asyncpg://)
 if DATABASE_URL.startswith("postgresql://"):
     DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+elif DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
 
 # Create async engine
 engine = create_async_engine(DATABASE_URL, echo=True)

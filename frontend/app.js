@@ -1,5 +1,5 @@
-// API server URL
-const API_URL = 'http://localhost:8000';
+// API server URL (empty = same origin, so it works when frontend is served from FastAPI)
+const API_URL = window.location.origin;
 
 // When page loads, setup everything
 window.onload = function() {
